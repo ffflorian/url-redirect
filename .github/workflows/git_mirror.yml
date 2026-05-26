@@ -1,0 +1,22 @@
+name: Mirror to Codeberg and GitLab
+
+permissions: {}
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  mirror:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ffflorian/actions/git-mirror@ab77083a817e863fbd74dd2cbab57a6d27a22e28
+        with:
+          GITLAB_REMOTE: "git@gitlab.com:${{ github.repository }}.git"
+          GITLAB_SECRET: ${{ secrets.GITLAB_SECRET }}
+          GITLAB_PUSH_ALL_REFS: "false"
+          CODEBERG_REMOTE: "git@codeberg.org:${{ github.repository }}.git"
+          CODEBERG_SECRET: ${{ secrets.CODEBERG_SECRET }}
+          CODEBERG_PUSH_ALL_REFS: "false"
