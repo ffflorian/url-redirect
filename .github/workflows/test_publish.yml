@@ -1,12 +1,13 @@
 name: Test and publish
 
+permissions: {}
+
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
-permissions: {}
+  workflow_dispatch:
 
 jobs:
   test_nginx_config:
