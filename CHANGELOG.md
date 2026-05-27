@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/ffflorian/url-redirect/compare/v1.0.0...v1.0.1) (2026-05-27)
+
+
+### Bug Fixes
+
+* Copy nginx config to /tmp ([decb297](https://github.com/ffflorian/url-redirect/commit/decb297cf175f65640468e8440c692bb7735f2b6))
+
 # 1.0.0 (2026-05-27)
 
 
