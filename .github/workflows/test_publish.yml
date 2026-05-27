@@ -54,7 +54,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Publish Docker image
-        uses: ffflorian/actions/docker-image-release@328402a0d98b0b03915024d2fd1b15ebf4978af0
+        uses: ffflorian/actions/docker-image-release@51fbef78032ca32b89e931895b168a5b0f94aa78
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           git_author: "ffflorian"
