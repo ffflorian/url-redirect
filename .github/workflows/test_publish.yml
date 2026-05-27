@@ -10,13 +10,12 @@ on:
 
 jobs:
   test_nginx_config:
+    name: Test nginx config
     permissions:
       contents: read
     runs-on: ubuntu-latest
-
     container:
       image: nginx:1.31.0-alpine@sha256:c22e76a97fe5bacad9d58bad0a96e903480c05f8dee30884b14550530ddd25a9
-
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
@@ -28,38 +27,35 @@ jobs:
           chmod +x /entrypoint.sh
           REDIRECT_URL=https://example.com /entrypoint.sh nginx -t
 
-  publish_docker_image:
-    name: Publish Docker image
-    needs: test_nginx_config
+  lint_dockerfile:
+    name: Lint Dockerfile
     permissions:
       contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5
+
+  publish:
+    name: Publish Release and Docker image
+    needs:
+      - test_nginx_config
+      - lint_dockerfile
+    permissions:
+      contents: write
       packages: write
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee
+      - name: Publish Docker image
+        uses: ffflorian/actions/docker-image-release@328402a0d98b0b03915024d2fd1b15ebf4978af0
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract Docker metadata
-        id: docker-meta
-        uses: docker/metadata-action@80c7e94dd9b9319bd5eb7a0e0fe9291e23a2a2e9
-        with:
-          images: ghcr.io/${{ github.repository }}
-          tags: |
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=sha
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf
-        with:
-          context: .
-          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-          tags: ${{ steps.docker-meta.outputs.tags }}
-          labels: ${{ steps.docker-meta.outputs.labels }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git_author: "ffflorian"
+          git_email: "git@ffflorian.de"
