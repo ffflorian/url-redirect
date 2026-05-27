@@ -57,21 +57,25 @@ The url-redirect project is a lightweight, nginx-based HTTP redirect service. It
 ## Key Principles
 
 ### 1. Minimal Changes
+
 - Keep modifications focused and minimal
 - Avoid unnecessary refactoring or structure changes
 - Maintain the simplicity that makes this project valuable
 
 ### 2. Container-First Approach
+
 - All changes should be compatible with containerized deployment
 - Test changes using Docker: `docker build -t url-redirect . && docker run -p 8080:8080 -e REDIRECT_URL=https://example.com url-redirect`
 - Ensure the entrypoint.sh and Dockerfile remain the primary deployment mechanism
 
 ### 3. Configuration Management
+
 - All runtime configuration should flow through environment variables
 - The `entrypoint.sh` script is the entry point for configuration
 - Use `nginx.conf.template` for templating, not hardcoded values
 
 ### 4. Security First
+
 - Keep security headers enabled unless explicitly removing them is justified
 - No cleartext sensitive data in logs or output
 - Use minimal base images (Alpine Linux)
@@ -114,24 +118,28 @@ curl -i http://localhost:8080/test
 ## Areas of Responsibility
 
 ### entrypoint.sh
+
 - Validate required environment variables
 - Configure nginx dynamically
 - Handle errors gracefully
 - Keep it simple and POSIX-compliant
 
 ### nginx.conf.template
+
 - Define server configuration
 - Set security headers
 - Configure timeouts appropriately
 - Use `${VARIABLE}` syntax for environment variable substitution
 
 ### Dockerfile
+
 - Use specific base image digests for reproducibility
 - Keep image size minimal
 - Ensure proper file permissions
 - Expose only necessary ports
 
 ### README.md
+
 - Provide clear, concise documentation
 - Include practical examples
 - Document all configuration options

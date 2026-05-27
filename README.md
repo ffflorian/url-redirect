@@ -6,7 +6,7 @@ A lightweight, containerized URL redirect service built on nginx. This service p
 
 - **Simple URL redirection**: All HTTP requests are redirected to a configured URL
 - **Health check endpoint**: Built-in `/_health` endpoint for monitoring
-- **Security headers**: Includes security headers by default (X-Content-Type-Options, X-Frame-Options, Referrer-Policy)
+- **Security headers**: Includes security headers by default (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`)
 - **Lightweight**: Alpine Linux-based Docker image (~50MB)
 - **Configurable**: Uses environment variables for runtime configuration
 
@@ -54,7 +54,7 @@ curl -L http://localhost:8080/
 
 ```bash
 curl http://localhost:8080/_health
-# Response: 200 OK with body "ok"
+# Response: 200 OK
 ```
 
 ### Request Handling
@@ -83,10 +83,10 @@ curl http://localhost:8080/_health
 ## Files
 
 - `Dockerfile`: Container image definition
-- `entrypoint.sh`: Startup script that configures Nginx from environment variables
-- `nginx.conf.template`: Nginx configuration template with environment variable placeholders
+- `entrypoint.sh`: Startup script that configures nginx from environment variables
+- `nginx.conf.template`: nginx configuration template with environment variable placeholders
 - `LICENSE`: GNU General Public License v3
 
 ## License
 
-This project is licensed under the GNU General Public License v3. See the LICENSE file for details.
+This project is licensed under the GNU General Public License v3. See the [LICENSE](./LICENSE) file for details.
