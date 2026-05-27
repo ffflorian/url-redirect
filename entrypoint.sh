@@ -9,6 +9,6 @@ set -e
 REDIRECT_URL="${REDIRECT_URL%/}"
 export REDIRECT_URL
 
-envsubst '${REDIRECT_URL}' < /etc/nginx/nginx.conf.template > /etc/nginx/conf.d/default.conf
+envsubst '${REDIRECT_URL}' < /tmp/nginx.conf.template > /etc/nginx/conf.d/default.conf
 
 exec "$@"
