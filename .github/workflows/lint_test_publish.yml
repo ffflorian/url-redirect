@@ -22,7 +22,7 @@ jobs:
 
       - name: Generate and validate nginx config
         run: |
-          cp nginx.conf.template /etc/nginx/nginx.conf.template
+          cp nginx.conf.template /tmp/nginx.conf.template
           cp entrypoint.sh /entrypoint.sh
           chmod +x /entrypoint.sh
           REDIRECT_URL=https://example.com /entrypoint.sh nginx -t
