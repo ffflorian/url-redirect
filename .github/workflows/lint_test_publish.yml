@@ -53,9 +53,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - name: Publish Docker image
+      - name: Publish Release and Docker image
         uses: ffflorian/actions/docker-image-release@afaeca25b74a95b591bf5a168e042e20ebebcfbf
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          git_author: "ffflorian"
-          git_email: "git@ffflorian.de"
+          git_author: 'ffflorian'
+          git_email: 'git@ffflorian.de'
