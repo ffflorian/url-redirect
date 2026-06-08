@@ -22,7 +22,7 @@ server {
   }
 
   location / {
-    limit_except GET HEAD {
+    if ($request_method !~ ^(GET|HEAD)$) {
       return 405;
     }
     return 302 ${REDIRECT_URL};
