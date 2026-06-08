@@ -10,7 +10,8 @@ On startup, `entrypoint.sh` reads the `REDIRECT_URL` environment variable, strip
 
 - **Simple URL redirection**: All HTTP requests are redirected to a configured URL
 - **Health check endpoint**: Built-in `/_health` endpoint for monitoring
-- **Security headers**: Includes `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` by default
+- **Security headers**: Includes `Content-Security-Policy`, `Permissions-Policy`, `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` by default
+- **Method restriction**: Only `GET` and `HEAD` requests are accepted; all other methods return `405`
 - **Lightweight**: Alpine Linux-based Docker image (~50MB)
 - **Configurable**: Runtime configuration via environment variables
 
@@ -48,7 +49,7 @@ services:
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `REDIRECT_URL` | Yes | The destination URL. Trailing slashes are stripped automatically. |
+| `REDIRECT_URL` | Yes | The destination URL. Must start with `http://` or `https://`. Trailing slashes are stripped automatically. |
 
 ## Usage
 
@@ -80,10 +81,11 @@ curl -i http://localhost:8080/_health
 
 ### Request handling
 
-| Path | Response |
-|------|----------|
-| `/_health` | `200 OK` - health check, not logged |
-| Everything else | `302` redirect to `REDIRECT_URL` |
+| Path | Method | Response |
+|------|--------|----------|
+| `/_health` | any | `200 OK` - health check, not logged |
+| Everything else | `GET`, `HEAD` | `302` redirect to `REDIRECT_URL` |
+| Everything else | other | `405 Method Not Allowed` |
 
 ## Network Configuration
 
@@ -94,14 +96,22 @@ curl -i http://localhost:8080/_health
   - Client header timeout: 10s
   - Keep-alive timeout: 15s
   - Send timeout: 10s
+- **Limits**:
+  - Max request body size: 1k
+  - Max header buffer size: 2 x 4k
 
 ## Security
 
 - Server tokens disabled (no nginx version disclosure)
+- Only `GET` and `HEAD` methods accepted; all others return `405`
+- Request body capped at 1k; header buffers capped at 2 x 4k
+- `REDIRECT_URL` validated to require `http://` or `https://` scheme on startup
 - Security headers on all responses:
+  - `Content-Security-Policy: default-src 'none'`
+  - `Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()`
+  - `Referrer-Policy: no-referrer`
   - `X-Content-Type-Options: nosniff`
   - `X-Frame-Options: DENY`
-  - `Referrer-Policy: no-referrer`
 
 ## Files
 
