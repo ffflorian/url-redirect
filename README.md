@@ -1,35 +1,45 @@
 # URL Redirect Service
 
-A lightweight, containerized URL redirect service built on nginx. This service provides a simple HTTP redirect endpoint that forwards all traffic to a configured destination URL.
+A lightweight, containerized URL redirect service built on nginx. It forwards all incoming HTTP requests to a configured destination URL.
+
+## How It Works
+
+On startup, `entrypoint.sh` reads the `REDIRECT_URL` environment variable, strips any trailing slash, and uses `envsubst` to render `nginx.conf.template` into a live nginx config. nginx then issues a `302` redirect to that URL for every incoming request. The original request path is not forwarded. A dedicated `/_health` location returns `200 OK` and is excluded from access logs.
 
 ## Features
 
 - **Simple URL redirection**: All HTTP requests are redirected to a configured URL
 - **Health check endpoint**: Built-in `/_health` endpoint for monitoring
-- **Security headers**: Includes security headers by default (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`)
+- **Security headers**: Includes `X-Content-Type-Options`, `X-Frame-Options`, and `Referrer-Policy` by default
 - **Lightweight**: Alpine Linux-based Docker image (~50MB)
-- **Configurable**: Uses environment variables for runtime configuration
+- **Configurable**: Runtime configuration via environment variables
 
 ## Quick Start
 
-### Using Docker
+### Using the pre-built image
+
+```bash
+docker run --rm -p 8080:8080 -e REDIRECT_URL=https://example.com ghcr.io/ffflorian/url-redirect
+```
+
+### Building locally
 
 ```bash
 docker build -t url-redirect .
-docker run -p 8080:8080 -e REDIRECT_URL=https://example.com url-redirect
+docker run --rm -p 8080:8080 -e REDIRECT_URL=https://example.com url-redirect
 ```
 
 ### Using Docker Compose
 
 ```yaml
-version: '3'
 services:
   url-redirect:
-    build: .
+    image: ghcr.io/ffflorian/url-redirect
     ports:
       - "8080:8080"
     environment:
       - REDIRECT_URL=https://example.com
+    restart: unless-stopped
 ```
 
 ## Configuration
@@ -38,29 +48,42 @@ services:
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `REDIRECT_URL` | Yes | The URL to redirect all traffic to (trailing slashes are automatically stripped) |
+| `REDIRECT_URL` | Yes | The destination URL. Trailing slashes are stripped automatically. |
 
 ## Usage
 
-### Basic Redirect
+### Verify the redirect
 
 ```bash
-# All requests to the service are redirected
-curl -L http://localhost:8080/
-# Redirects to: https://example.com
+curl -i http://localhost:8080/
+# HTTP/1.1 302 Moved Temporarily
+# Location: https://example.com
 ```
 
-### Health Check
+### Follow the redirect
 
 ```bash
-curl http://localhost:8080/_health
-# Response: 200 OK
+curl -L http://localhost:8080/any/path
+# Follows the redirect to https://example.com
 ```
 
-### Request Handling
+Note: the original request path is not appended to `REDIRECT_URL`. All paths redirect to the same destination.
 
-- **Health checks**: Requests to `/_health` return 200 OK
-- **All other requests**: Return HTTP 302 redirect to the configured `REDIRECT_URL`
+### Health check
+
+```bash
+curl -i http://localhost:8080/_health
+# HTTP/1.1 200 OK
+#
+# OK
+```
+
+### Request handling
+
+| Path | Response |
+|------|----------|
+| `/_health` | `200 OK` - health check, not logged |
+| Everything else | `302` redirect to `REDIRECT_URL` |
 
 ## Network Configuration
 
@@ -75,7 +98,7 @@ curl http://localhost:8080/_health
 ## Security
 
 - Server tokens disabled (no nginx version disclosure)
-- Security headers included in all responses:
+- Security headers on all responses:
   - `X-Content-Type-Options: nosniff`
   - `X-Frame-Options: DENY`
   - `Referrer-Policy: no-referrer`
