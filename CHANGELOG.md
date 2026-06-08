@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/ffflorian/url-redirect/compare/v1.0.1...v1.0.2) (2026-06-08)
+
+
+### Bug Fixes
+
+* Harden nginx config and validate REDIRECT_URL scheme ([#13](https://github.com/ffflorian/url-redirect/issues/13)) ([13a876b](https://github.com/ffflorian/url-redirect/commit/13a876b35617292b627b973df9db159eabb5bc86))
+
 ## [1.0.1](https://github.com/ffflorian/url-redirect/compare/v1.0.0...v1.0.1) (2026-05-27)
 
 
