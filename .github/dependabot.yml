@@ -1,22 +1,28 @@
-version: 2
 updates:
-  - package-ecosystem: docker
-    directory: '/'
-    schedule:
-      interval: weekly
-    open-pull-requests-limit: 99
-    assignees:
+  - assignees:
       - ffflorian
-    cooldown:
-      default-days: 5
-  - package-ecosystem: 'github-actions'
-    directory: '/'
-    schedule:
-      interval: weekly
-    open-pull-requests-limit: 99
-    assignees:
-      - ffflorian
+    commit-message:
+      prefix: fix(deps)
     cooldown:
       default-days: 5
       exclude:
-        - 'ffflorian/*'
+        - nginx
+    directory: /
+    open-pull-requests-limit: 99
+    package-ecosystem: docker
+    schedule:
+      interval: weekly
+  - assignees:
+      - ffflorian
+    commit-message:
+      prefix: ci(deps)
+    cooldown:
+      default-days: 5
+      exclude:
+        - ffflorian/*
+    directory: /
+    open-pull-requests-limit: 99
+    package-ecosystem: github-actions
+    schedule:
+      interval: weekly
+version: 2
