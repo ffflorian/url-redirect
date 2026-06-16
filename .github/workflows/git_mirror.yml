@@ -12,7 +12,7 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-      - uses: ffflorian/actions/git-mirror@19c9eb3c05c3d1445f442abeb22109175d531293
+      - uses: ffflorian/actions/git-mirror@b5404cde882e955080c914a652d50c4776c54983
         with:
           GITLAB_REMOTE: "git@gitlab.com:${{ github.repository }}.git"
           GITLAB_SECRET: ${{ secrets.GITLAB_SECRET }}
