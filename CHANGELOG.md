@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/ffflorian/url-redirect/compare/v1.0.2...v1.0.3) (2026-06-24)
+
+
+### Bug Fixes
+
+* **deps:** Bump nginx from 1.31.1-alpine to 1.31.2-alpine ([#17](https://github.com/ffflorian/url-redirect/issues/17)) ([ddcd478](https://github.com/ffflorian/url-redirect/commit/ddcd478ce2d11cdb83cfac9d5e6d2c0c0e1d4d7b))
+
 ## [1.0.2](https://github.com/ffflorian/url-redirect/compare/v1.0.1...v1.0.2) (2026-06-08)
 
 
