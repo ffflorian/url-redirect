@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/ffflorian/url-redirect/compare/v1.0.3...v1.0.4) (2026-06-26)
+
+
+### Bug Fixes
+
+* **deps:** Bump nginx from `1a8724a` to `54f2a90` ([#20](https://github.com/ffflorian/url-redirect/issues/20)) ([c855760](https://github.com/ffflorian/url-redirect/commit/c85576058d9b7e39ad40b5348ae4c1fd1dcc6e9f))
+
 ## [1.0.3](https://github.com/ffflorian/url-redirect/compare/v1.0.2...v1.0.3) (2026-06-24)
 
 
