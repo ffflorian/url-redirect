@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/[secure]/url-redirect/compare/v1.0.4...v1.0.5) (2026-07-22)
+
+
+### Bug Fixes
+
+* **deps:** Bump nginx from 1.31.2-alpine to 1.31.3-alpine ([#25](https://github.com/[secure]/url-redirect/issues/25)) ([0db487e](https://github.com/[secure]/url-redirect/commit/0db487eb37b9117ca661a88348b1c63b25e9c76d))
+
 ## [1.0.4](https://github.com/ffflorian/url-redirect/compare/v1.0.3...v1.0.4) (2026-06-26)
 
 
