@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/[secure]/url-redirect/compare/v1.0.5...v1.0.6) (2026-08-26)
+
+
+### Bug Fixes
+
+* **deps:** Bump nginx from 1.31.3-alpine to 1.31.4-alpine ([#31](https://github.com/[secure]/url-redirect/issues/31)) ([0f672db](https://github.com/[secure]/url-redirect/commit/0f672db3c38e59590f9ef5587b447ade046b6e61))
+
 ## [1.0.5](https://github.com/[secure]/url-redirect/compare/v1.0.4...v1.0.5) (2026-07-22)
 
 
